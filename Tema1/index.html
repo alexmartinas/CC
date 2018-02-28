@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>US news</title>
+</head>
+<body>
+<h2 style="text-align: center">US news</h2>
+<h4 id="news-title"></h4>
+<img id="news-image" src="#" style="display: none;">
+<p id="news-description"></p>
+<a id="news-source" style="display: none" target="_blank">Click here to see the news</a><br>
+<button onclick="translateText()">Translate to Romanian</button>
+
+<h4 id="translated-news-title"></h4>
+<img id="translated-news-image" src="#" style="display: none;">
+<p id="translated-news-description"></p>
+<a id="translated-news-source" style="display: none" target="_blank">Click aici sa vezi stirea</a><br>
+
+<button id="get-audio-button" style="display: none" onclick="textToSpeech()">Get audio version</button>
+<audio id="news-audio" controls style="display: none">
+</audio>
+
+
+<script src="index.js"></script>
+</body>
+</html>
