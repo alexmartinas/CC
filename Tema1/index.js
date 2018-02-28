@@ -1,3 +1,4 @@
+
 window.onload = function() {
     var raspuns;
     var request = new XMLHttpRequest();
@@ -7,6 +8,13 @@ window.onload = function() {
     request.open("GET", url);
     request.send();
     request.onloadend = function (data) {
+        logs.requests[logs.requestsNumber] = {};
+        logs.requests[logs.requestsNumber].type = "GET";
+        logs.requests[logs.requestsNumber].url = url;
+        logs.requests[logs.requestsNumber].statusCode = data.srcElement.status;
+        logs.requests[logs.requestsNumber].time = Date.now();
+        logs.requestsNumber++;
+        window.localStorage.setItem("logs", JSON.stringify(logs));
         raspuns = JSON.parse(data.srcElement.response).articles;
         var i = 0;
         while (raspuns[i].description === null || raspuns[i].urlToImage === null || raspuns.url === null || raspuns.title === null){
@@ -33,6 +41,13 @@ function translateText() {
     var url = 'https://www.googleapis.com/language/translate/v2?key=AIzaSyBH1WAZbfad7TTBVl-mS4KLiFxhfoaPjpo&source=en&target=ro&q=' + title + '&q=' + description;
     request.open('GET', url);
     request.onloadend = function (data) {
+        logs.requests[logs.requestsNumber] = {};
+        logs.requests[logs.requestsNumber].type = "GET";
+        logs.requests[logs.requestsNumber].url = url;
+        logs.requests[logs.requestsNumber].statusCode = data.srcElement.status;
+        logs.requests[logs.requestsNumber].time = Date.now();
+        logs.requestsNumber++;
+        window.localStorage.setItem("logs", JSON.stringify(logs));
         raspuns = JSON.parse(data.srcElement.response).data.translations;
         document.getElementById('translated-news-title').textContent = raspuns[0].translatedText;
         document.getElementById('translated-news-title').style.display = 'block';
@@ -58,6 +73,13 @@ function textToSpeech() {
     requestToken.setRequestHeader('Ocp-Apim-Subscription-Key', '56d368557837449b99537bab27fa43a1');
     requestToken.send();
     requestToken.onloadend = function (data) {
+        logs.requests[logs.requestsNumber] = {};
+        logs.requests[logs.requestsNumber].type = "POST";
+        logs.requests[logs.requestsNumber].url = url;
+        logs.requests[logs.requestsNumber].statusCode = data.srcElement.status;
+        logs.requests[logs.requestsNumber].time = Date.now();
+        logs.requestsNumber++;
+        window.localStorage.setItem("logs", JSON.stringify(logs));
         token = data.srcElement.response;
         var title = document.getElementById('translated-news-title').textContent;
         var description = document.getElementById('translated-news-description').textContent;
@@ -71,6 +93,13 @@ function textToSpeech() {
         var body = '<speak version=\'1.0\' xml:lang=\'ro-RO\'><voice xml:lang=\'ro-RO\' xml:gender=\'Male\' name=\'Microsoft Server Speech Text to Speech Voice (ro-RO, Andrei)\'>' + title + '.' + description + '</voice></speak>'
         request.send(body);
         request.onloadend = function (data) {
+            logs.requests[logs.requestsNumber] = {};
+            logs.requests[logs.requestsNumber].type = "POST";
+            logs.requests[logs.requestsNumber].url = url;
+            logs.requests[logs.requestsNumber].statusCode = data.srcElement.status;
+            logs.requests[logs.requestsNumber].time = Date.now();
+            logs.requestsNumber++;
+            window.localStorage.setItem("logs", JSON.stringify(logs));
             audioFile = data.srcElement.response;
             document.getElementById('news-audio').src = URL.createObjectURL(audioFile);
             document.getElementById('news-audio').style.display = 'block';
